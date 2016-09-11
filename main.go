@@ -7,7 +7,7 @@ import (
 	"log"
  	"github.com/jinzhu/gorm"
     _ "github.com/jinzhu/gorm/dialects/postgres"
-    "github.com/seyedrazavi/datagovuk-loader/dataloaders"
+    "github.com/monkeyx/datagovuk-loader/dataloaders"
 )
 
 // Interface for Data.gov.uk data loaders
