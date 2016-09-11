@@ -12,7 +12,7 @@ const PerPage = 250
 type Fetcher interface {
 	BaseUrl() string
 	ParseResults(body []byte) (int, error)
-	SaveOrUpdate(db *gorm.DB, index int) error
+	CreateOrUpdate(db *gorm.DB, index int) error
 }
 
 // Fetches all pages using a fetcher
@@ -53,7 +53,7 @@ func Fetch(db *gorm.DB, f Fetcher, page int) (int, error) {
 
 	// log.Println("COUNT: ", c)
 	for i := 0; i < c; i++ {
-		err = f.SaveOrUpdate(db, i)
+		err = f.CreateOrUpdate(db, i)
 		if err != nil {
 			tx.Rollback()
 			return 0, err

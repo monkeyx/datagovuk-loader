@@ -52,7 +52,7 @@ func (p *PostCodeSectorFetcher) ParseResults(body []byte) (int, error) {
 	return len(p.Results), err
 }
 
-func (p *PostCodeSectorFetcher) SaveOrUpdate(db *gorm.DB, index int) error {
+func (p *PostCodeSectorFetcher) CreateOrUpdate(db *gorm.DB, index int) error {
 	if index >= len(p.Results) {
 		return errors.New("Invalid index: " + strconv.Itoa(index))
 	} 
