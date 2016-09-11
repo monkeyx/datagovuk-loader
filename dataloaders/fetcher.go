@@ -6,6 +6,8 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
+const PerPage = 250
+
 // Fetcher is an interface for fetching JSON data
 type Fetcher interface {
 	BaseUrl() string

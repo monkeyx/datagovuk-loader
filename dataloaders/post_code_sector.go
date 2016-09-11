@@ -7,6 +7,8 @@ import (
 	"time"
 )
 
+const PostCodeSectorUrl = "http://opendatacommunities.org/resources.json?dataset=postcodes&type_uri=http%3A%2F%2Fdata.ordnancesurvey.co.uk%2Fontology%2Fpostcode%2FPostcodeSector"
+
 // JSON response structure for PostCode Sector
 type PostCodeSectorResponse struct {
 	Id string `json:"@id"`

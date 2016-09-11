@@ -4,12 +4,6 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-const PerPage = 250
-const PostCodeUnitUrl = "http://opendatacommunities.org/resources.json?dataset=postcodes&type_uri=http%3A%2F%2Fdata.ordnancesurvey.co.uk%2Fontology%2Fpostcode%2FPostcodeUnit"
-const PostCodeAreaUrl = "http://opendatacommunities.org/resources.json?dataset=postcodes&type_uri=http%3A%2F%2Fdata.ordnancesurvey.co.uk%2Fontology%2Fpostcode%2FPostcodeArea"
-const PostCodeSectorUrl = "http://opendatacommunities.org/resources.json?dataset=postcodes&type_uri=http%3A%2F%2Fdata.ordnancesurvey.co.uk%2Fontology%2Fpostcode%2FPostcodeSector"
-const PostCodeDistrictUrl = "http://opendatacommunities.org/resources.json?dataset=postcodes&type_uri=http%3A%2F%2Fdata.ordnancesurvey.co.uk%2Fontology%2Fpostcode%2FPostcodeDistrict"
-
 // PostCodeLoader is a data loader for ONS Post Code N-Triples format.
 type PostCodeLoader struct {}
 
