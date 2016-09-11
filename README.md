@@ -16,6 +16,8 @@ The tools make the required database tables if they don't exist.
 
 ### Environment variables
 
+| Variable | Purpose |
+| -------- | ------- |
 | *DB_HOST* | Database host, default: localhost |
 | *DB_USER* | Database user, default: current user |
 | *DB_PASSWORD* | Database user's password, optional |
