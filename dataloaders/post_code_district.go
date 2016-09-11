@@ -36,10 +36,15 @@ func (p PostCodeDistrict) String() string {
 	return p.ID
 }
 
-// PostCodeArea fetcher
+// PostCodeDistrict fetcher
 type PostCodeDistrictFetcher struct {
 	Results []PostCodeDistrictResponse
 	TotalResults int
+}
+
+// Stringer for PostCodeDistrictFetcher
+func (p PostCodeDistrictFetcher) String() string {
+	return "PostCode District Fetcher"
 }
 
 // Base URL
@@ -53,7 +58,8 @@ func (p *PostCodeDistrictFetcher) ParseResults(body []byte) (int, error) {
 	return len(p.Results), err
 }
 
-func (p *PostCodeDistrictFetcher) CreateOrUpdate(db *gorm.DB, index int) error {
+// Create or save results at specified index
+func (p *PostCodeDistrictFetcher) CreateOrSave(db *gorm.DB, index int) error {
 	if index >= len(p.Results) {
 		return errors.New("Invalid index: " + strconv.Itoa(index))
 	} 

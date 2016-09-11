@@ -63,30 +63,30 @@ func main() {
 	dbString, err := sqlConnectionString()
 
 	if err != nil {
-		log.Fatal("sqlConnectionString: ", err)
+		log.Fatal("Unable to get database connection string:", err)
 		return
 	}
 
-	log.Println("SQL Connection: ", dbString)
+	log.Println("DB Connection:", dbString)
 	db, err := gorm.Open("postgres", dbString)
 	defer db.Close()
 
 	if err != nil {
-		log.Fatal("gorm.Open: ", err)
+		log.Fatal("Error opening database connection:", err)
 		return
 	}
 
 	loader, err := dataLoader()
 
 	if err != nil {
-		log.Fatal("dataLoader: ", err)
+		log.Fatal("Error getting data loader:", err)
 		return
 	}
 
 	err = loader.Load(db)
 
 	if err != nil {
-		log.Fatal("dataLoader: ", err)
+		log.Fatal("Error getting data loader:", err)
 		return
 	}
 }

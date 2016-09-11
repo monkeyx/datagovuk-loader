@@ -14,30 +14,26 @@ func (p PostCodeLoader) Load(db *gorm.DB) (err error) {
 	db.AutoMigrate(&PostCodeSector{})
 	db.AutoMigrate(&PostCodeDistrict{})
 
-	// TODO - make concurrent
+	ch := make(chan bool)
 
-	_, err = FetchAll(db, &PostCodeDistrictFetcher{})
+	go FetchAll(ch, db, &PostCodeDistrictFetcher{})
 
-	if err != nil {
-		return err
-	}
+	go FetchAll(ch, db, &PostCodeSectorFetcher{})
 
-	_, err = FetchAll(db, &PostCodeSectorFetcher{})
+	go FetchAll(ch, db, &PostCodeAreaFetcher{})
 
-	if err != nil {
-		return err
-	}
+	go FetchAll(ch, db, &PostCodeUnitFetcher{})
 
-	_, err = FetchAll(db, &PostCodeAreaFetcher{})
+	count := 0
+	for {
+		
+		if f := <- ch; f {
+			count += 1
+		}
 
-	if err != nil {
-		return err
-	}
-
-	_, err = FetchAll(db, &PostCodeUnitFetcher{})
-
-	if err != nil {
-		return err
+		if count > 3 {
+			break
+		}
 	}
 
 	return nil

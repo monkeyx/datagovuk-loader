@@ -12,26 +12,24 @@ const PerPage = 250
 type Fetcher interface {
 	BaseUrl() string
 	ParseResults(body []byte) (int, error)
-	CreateOrUpdate(db *gorm.DB, index int) error
+	CreateOrSave(db *gorm.DB, index int) error
 }
 
 // Fetches all pages using a fetcher
-func FetchAll(db *gorm.DB, f Fetcher) (int, error) {
+func FetchAll(ch chan<- bool, db *gorm.DB, f Fetcher) {
+	log.Println("Started:", f)
 	total := 0
 	page := 1
 	for {
-		c, err := Fetch(db, f, page)
+		c, _ := Fetch(db, f, page)
 		if c < 1 {
-			if total < 1 {
-				return total, err
-			}
 			break
 		}
 		total += c
 		page += 1
 	}
-	log.Println("Fetched: ", total)
-	return total, nil
+	log.Println(f,"Finished:", total, "total")
+	ch <- true
 }
 
 // Fetches one page with the help of a Fetcher
@@ -53,7 +51,7 @@ func Fetch(db *gorm.DB, f Fetcher, page int) (int, error) {
 
 	// log.Println("COUNT: ", c)
 	for i := 0; i < c; i++ {
-		err = f.CreateOrUpdate(db, i)
+		err = f.CreateOrSave(db, i)
 		if err != nil {
 			tx.Rollback()
 			return 0, err

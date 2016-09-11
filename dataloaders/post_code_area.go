@@ -41,6 +41,11 @@ type PostCodeAreaFetcher struct {
 	TotalResults int
 }
 
+// Stringer for PostCodeAreaFetcher
+func (p PostCodeAreaFetcher) String() string {
+	return "PostCode Area Fetcher"
+}
+
 // Base URL
 func (p *PostCodeAreaFetcher) BaseUrl() string {
 	return PostCodeAreaUrl;
@@ -52,14 +57,15 @@ func (p *PostCodeAreaFetcher) ParseResults(body []byte) (int, error) {
 	return len(p.Results), err
 }
 
-func (p *PostCodeAreaFetcher) CreateOrUpdate(db *gorm.DB, index int) error {
+// Create or save results at specified index
+func (p *PostCodeAreaFetcher) CreateOrSave(db *gorm.DB, index int) error {
 	if index >= len(p.Results) {
 		return errors.New("Invalid index: " + strconv.Itoa(index))
 	} 
 	r := p.Results[index]
 	poa := PostCodeArea{}
 	db.Where("ID = ?", r.Id).First(&poa)
-	area := &PostCodeUnit{ID: r.Id, Label: FirstOrEmptyXmlValue(r.Labels)}
+	area := &PostCodeArea{ID: r.Id, Label: FirstOrEmptyXmlValue(r.Labels)}
 
 	if poa.ID == "" {
 		err := db.Create(area).Error

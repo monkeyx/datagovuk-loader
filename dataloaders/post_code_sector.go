@@ -41,6 +41,11 @@ type PostCodeSectorFetcher struct {
 	TotalResults int
 }
 
+// Stringer for PostCodeSectorFetcher
+func (p PostCodeSectorFetcher) String() string {
+	return "PostCode Sector Fetcher"
+}
+
 // Base URL
 func (p *PostCodeSectorFetcher) BaseUrl() string {
 	return PostCodeSectorUrl;
@@ -52,7 +57,8 @@ func (p *PostCodeSectorFetcher) ParseResults(body []byte) (int, error) {
 	return len(p.Results), err
 }
 
-func (p *PostCodeSectorFetcher) CreateOrUpdate(db *gorm.DB, index int) error {
+// Create or save results at specified index
+func (p *PostCodeSectorFetcher) CreateOrSave(db *gorm.DB, index int) error {
 	if index >= len(p.Results) {
 		return errors.New("Invalid index: " + strconv.Itoa(index))
 	} 

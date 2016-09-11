@@ -2,9 +2,9 @@ package dataloaders
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"net/http"
-	"log"
 )
 
 // Reads a URL into a byte slice
@@ -15,7 +15,9 @@ func ReadUrl(url string) ([]byte, error) {
 	}
 	defer resp.Body.Close()
 
-	log.Println(url + ":", resp.Status)
+	if resp.StatusCode != 200 {
+		return nil, errors.New(url + ": " + resp.Status)
+	}
 
 	body, err := ioutil.ReadAll(resp.Body)
 
