@@ -11,7 +11,7 @@ The tools make the required database tables if they don't exist.
 ## Running
 
 ```
-./datagovuk-loader [DataLoder]
+./datagovuk-loader [DataLoader]
 ```
 
 ### Environment variables

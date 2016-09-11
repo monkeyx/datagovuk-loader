@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/jinzhu/gorm"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -39,6 +40,9 @@ func (p PostCodeUnitResponse) String() string {
 // PostCode unit database model
 type PostCodeUnit struct {
 	ID string `gorm:"primary_key"`
+	SectorID string `gorm:"index"`
+	DistrictID string `gorm:"index"`
+	AreaID string `gorm:"index"`
 	Label string
 	CreatedAt time.Time
 	UpdatedAt time.Time
@@ -92,6 +96,19 @@ func (p *PostCodeUnitFetcher) CreateOrSave(db *gorm.DB, index int) error {
 		Easting: FirstOrEmptyXmlDataType(r.Easting), Ward: FirstOrEmptyXmlId(r.Ward), 
 		District: FirstOrEmptyXmlId(r.District), Country: FirstOrEmptyXmlId(r.Country), 
 		County: FirstOrEmptyXmlId(r.County)}
+
+	c := len(r.Within)
+	for i := 0; i < c; i++ {
+		if strings.Count(r.Within[i].Id, "postcodearea") > 0 {
+			unit.AreaID = r.Within[i].Id
+		}
+		if strings.Count(r.Within[i].Id, "postcodedistrict") > 0 {
+			unit.DistrictID = r.Within[i].Id
+		}
+		if strings.Count(r.Within[i].Id, "postcodesector") > 0 {
+			unit.SectorID = r.Within[i].Id
+		}
+	}
 
 	if pou.ID == "" {
 		err := db.Create(unit).Error

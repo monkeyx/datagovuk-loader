@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/jinzhu/gorm"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -14,6 +15,7 @@ type PostCodeSectorResponse struct {
 	Id string `json:"@id"`
 	Labels []XmlValue `json:"http://www.w3.org/2000/01/rdf-schema#label"`
 	Contains []XmlId `json:"http://data.ordnancesurvey.co.uk/ontology/spatialrelations/contains"`
+	Within []XmlId `json:"http://data.ordnancesurvey.co.uk/ontology/spatialrelations/within"`
 }
 
 // Stringer for PostCodeSectorResponse
@@ -24,6 +26,7 @@ func (p PostCodeSectorResponse) String() string {
 // PostCode unit database model
 type PostCodeSector struct {
 	ID string `gorm:"primary_key"`
+	DistrictID string `gorm:"index"`
 	Label string
 	CreatedAt time.Time
 	UpdatedAt time.Time
@@ -65,16 +68,23 @@ func (p *PostCodeSectorFetcher) CreateOrSave(db *gorm.DB, index int) error {
 	r := p.Results[index]
 	poa := PostCodeSector{}
 	db.Where("ID = ?", r.Id).First(&poa)
-	area := &PostCodeSector{ID: r.Id, Label: FirstOrEmptyXmlValue(r.Labels)}
+	sector := &PostCodeSector{ID: r.Id, Label: FirstOrEmptyXmlValue(r.Labels)}
+
+	c := len(r.Within)
+	for i := 0; i < c; i++ {
+		if strings.Count(r.Within[i].Id, "postcodedistrict") > 0 {
+			sector.DistrictID = r.Within[i].Id
+		}
+	}
 
 	if poa.ID == "" {
-		err := db.Create(area).Error
+		err := db.Create(sector).Error
 
 		if err != nil {
 			return err
 		}
 	} else {
-		err := db.Save(area).Error
+		err := db.Save(sector).Error
 
 		if err != nil {
 			return err
