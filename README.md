@@ -14,6 +14,13 @@ The tools make the required database tables if they don't exist.
 ./datagovuk-loader [DataLoder]
 ```
 
+### Environment variables
+
+| *DB_HOST* | Database host, default: localhost |
+| *DB_USER* | Database user, default: current user |
+| *DB_PASSWORD* | Database user's password, optional |
+| *DB_NAME* | Database name, default: datagovuk |
+
 ### Data Loaders
 
 | Identifier | Source | Database Tables |
