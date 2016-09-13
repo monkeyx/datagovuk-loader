@@ -19,7 +19,7 @@ type PostCodeUnitResponse struct {
 	Longitude []XmlDataType `json:"http://www.w3.org/2003/01/geo/wgs84_pos#long"`
 	Northing []XmlDataType `json:"http://data.ordnancesurvey.co.uk/ontology/spatialrelations/northing"`
 	Easting []XmlDataType `json:"http://data.ordnancesurvey.co.uk/ontology/spatialrelations/easting"`
-	LE []XmlValue `json:"http://data.ordnancesurvey.co.uk/ontology/postcode/LH"`
+	LH []XmlValue `json:"http://data.ordnancesurvey.co.uk/ontology/postcode/LH"`
 	Ward []XmlId `json:"http://data.ordnancesurvey.co.uk/ontology/postcode/ward"`
 	District []XmlId `json:"http://data.ordnancesurvey.co.uk/ontology/postcode/district"`
 	PQ []XmlValue `json:"http://data.ordnancesurvey.co.uk/ontology/postcode/PQ"`

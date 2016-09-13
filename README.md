@@ -28,6 +28,11 @@ The tools make the required database tables if they don't exist.
 | Identifier | Source | Database Tables |
 | ---------- | ------ | --------------- |
 | postcode   | [OpenDataCommunities.org](http://opendatacommunities.org/data/postcodes) | post_code_areas, post_code_districts, post_code_sectors, post_code_units |
+| school | [EduBase](http://www.education.gov.uk/edubase/home.xhtml) | local_authorities, schools |
+
+#### Notes on Sources
+
+1. EduBase data is mirrored on Amazon S3 as the filename changes regularly and the old version removed. So a cached version is used to avoid code breaking every month or so. 
 
 ### License
 

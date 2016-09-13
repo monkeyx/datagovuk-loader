@@ -4,7 +4,7 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-// PostCodeLoader is a data loader for ONS Post Code N-Triples format.
+// PostCodeLoader is a data loader for ONS Post Code JSON format.
 type PostCodeLoader struct {}
 
 // Loads post code data

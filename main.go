@@ -54,11 +54,13 @@ func dataLoader() (DataLoader, error) {
 			return nil, errors.New("No data loader specified")
 		case "postcode":
 			return &dataloaders.PostCodeLoader{}, nil
+		case "school":
+			return &dataloaders.SchoolLoader{}, nil 
 	}
 }
 
 func main() {
-	log.Println("args: ", os.Args)
+	// log.Println("args: ", os.Args)
 
 	dbString, err := sqlConnectionString()
 
